@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # SkillSwap (MERN)
 
 Peer-to-peer skill exchange platform built on a strict MERN stack.
@@ -135,3 +136,6 @@ PATCH  /api/notifications/:id/read
 
 ## License
 MIT
+=======
+# SkillSwapMERN
+>>>>>>> c111cdaa85bed9bd837225065cb62ff02fe22690
