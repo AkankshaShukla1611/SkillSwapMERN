@@ -15,6 +15,7 @@ const schema = z.object({
 type Form = z.infer<typeof schema>;
 
 export default function LoginPage() {
+  console.log("LOGIN PAGE LOADED")
   const { login } = useAuth();
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<Form>({ resolver: zodResolver(schema) });
 

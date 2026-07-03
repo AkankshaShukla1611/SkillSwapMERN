@@ -10,11 +10,11 @@ export default function ConnectionsPage() {
   const { user } = useAuth();
   const [items, setItems] = useState<any[]>([]);
 
-  const load = () => api.get('/connections').then((r) => setItems(r.data));
+  const load = () => api.get('/api/connections').then((r) => setItems(r.data));
   useEffect(() => { if (user) load(); }, [user]);
 
   const act = async (id: string, action: 'accept' | 'reject') => {
-    try { await api.patch(`/connections/${id}`, { action }); toast.success(action); load(); }
+    try { await api.patch(`/api/connections/${id}`, { action }); toast.success(action); load(); }
     catch (e: any) { toast.error(e?.response?.data?.error || 'Failed'); }
   };
 
@@ -59,7 +59,7 @@ export default function ConnectionsPage() {
             <Card key={c._id} className="flex justify-between items-center mb-2">
               <span>{other.name}</span>
               <Button size="sm" variant="outline" onClick={async () => {
-                const { data } = await api.post('/conversations', { otherUserId: other._id });
+                const { data } = await api.post('/api/conversations', { otherUserId: other._id });
                 window.location.href = `/chat/${data._id}`;
               }}>Message</Button>
             </Card>

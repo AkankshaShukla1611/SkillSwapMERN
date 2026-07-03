@@ -8,6 +8,10 @@ import { Search, Users, MessageSquare, Bell } from 'lucide-react';
 
 export default function DashboardPage() {
   const { user, loading } = useAuth();
+  console.log("PAGE");
+  console.log("loading", loading);
+  console.log("user", user);
+  
   const router = useRouter();
   useEffect(() => { if (!loading && !user) router.replace('/login'); }, [loading, user, router]);
   if (loading || !user) return <div className="p-12 text-center">Loading…</div>;

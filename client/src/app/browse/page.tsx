@@ -18,7 +18,7 @@ export default function BrowsePage() {
     setLoading(true);
     try {
       const params = Object.fromEntries(Object.entries(q).filter(([_, v]) => v));
-      const path = Object.keys(params).length ? '/users/search' : '/users';
+      const path = Object.keys(params).length ? '/api/users/search' : '/api/users';
       const { data } = await api.get(path, { params });
       setUsers(data);
     } finally { setLoading(false); }
@@ -26,12 +26,12 @@ export default function BrowsePage() {
   useEffect(() => { fetchUsers(); /* eslint-disable-next-line */ }, []);
 
   const connect = async (id: string) => {
-    try { await api.post('/connections', { receiverId: id }); toast.success('Request sent'); }
+    try { await api.post('/api/connections', { receiverId: id }); toast.success('Request sent'); }
     catch (e: any) { toast.error(e?.response?.data?.error || 'Failed'); }
   };
 
   const startChat = async (id: string) => {
-    const { data } = await api.post('/conversations', { otherUserId: id });
+    const { data } = await api.post('/api/conversations', { otherUserId: id });
     window.location.href = `/chat/${data._id}`;
   };
 

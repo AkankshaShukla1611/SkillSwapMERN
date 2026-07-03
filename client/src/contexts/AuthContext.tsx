@@ -21,14 +21,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
 
   const refresh = useCallback(async () => {
-    try {
-      const { data } = await api.get<User>('/users/me');
-      setUser(data);
-    } catch {
-      setUser(null);
-    } finally {
-      setLoading(false);
-    }
+  console.log("========== REFRESH START ==========");
+
+  try {
+    const { data } = await api.get<User>("/api/users/me");
+
+    console.log("REFRESH SUCCESS");
+    console.log(data);
+
+    setUser(data);
+  } catch (err) {
+    console.log("REFRESH FAILED");
+    console.log(err);
+
+    setUser(null);
+  } finally {
+    console.log("LOADING FALSE");
+    setLoading(false);
+    console.log("========== REFRESH END ==========");
+  }
   }, []);
 
   useEffect(() => {
@@ -36,16 +47,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     else setLoading(false);
   }, [refresh]);
 
-  const login = async (email: string, password: string) => {
-    const { data } = await api.post('/auth/login', { email, password });
-    localStorage.setItem('access', data.access);
-    localStorage.setItem('refresh', data.refresh);
-    setUser(data.user);
-    router.push('/dashboard');
+ const login = async (email: string, password: string) => {
+  const { data } = await api.post('/api/auth/login', { email, password });
+
+  console.log('LOGIN RESPONSE');
+  console.log(data);
+
+  localStorage.setItem('access', data.access);
+  localStorage.setItem('refresh', data.refresh);
+
+  setUser(data.user);
+  router.push('/dashboard');
   };
 
   const register = async (name: string, email: string, password: string, confirmPassword: string) => {
-    const { data } = await api.post('/auth/register', { name, email, password, confirmPassword });
+    const { data } = await api.post('/api/auth/register', { name, email, password, confirmPassword });
     localStorage.setItem('access', data.access);
     localStorage.setItem('refresh', data.refresh);
     setUser(data.user);
@@ -53,7 +69,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const logout = async () => {
-    try { await api.post('/auth/logout'); } catch {}
+    try { await api.post('/api/auth/logout'); } catch {}
     localStorage.removeItem('access');
     localStorage.removeItem('refresh');
     setUser(null);

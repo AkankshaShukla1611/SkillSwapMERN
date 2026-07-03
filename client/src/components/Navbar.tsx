@@ -6,7 +6,10 @@ import { Button } from './ui/button';
 import { Bell, MessageSquare, Users, LogOut, Search, User as UserIcon } from 'lucide-react';
 
 export function Navbar() {
-  const { user, logout } = useAuth();
+  const { user, logout, loading } = useAuth();
+  console.log("========== NAVBAR ==========");
+  console.log("Navbar loading:", loading);
+  console.log("Navbar user:", user);
   const router = useRouter();
   if (!user) return null;
   return (

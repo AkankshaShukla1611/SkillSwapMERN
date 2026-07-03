@@ -12,7 +12,10 @@ import { Phone, Video, Mic, MicOff, VideoOff, PhoneOff } from 'lucide-react';
 
 export default function ChatRoomPage() {
   const { id } = useParams<{ id: string }>();
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+  console.log('AUTH USER:', user);
+  // console.log('AUTH USER ID:', user?.id);
+  console.log('AUTH USER _ID:', user?._id);
   const { socket, online } = useSocket();
   const [convo, setConvo] = useState<any>(null);
   const [messages, setMessages] = useState<any[]>([]);
@@ -21,22 +24,32 @@ export default function ChatRoomPage() {
   const endRef = useRef<HTMLDivElement>(null);
 
   const other = convo?.participants?.find((p: any) => p._id !== user?._id);
-  const rtc = useWebRTC(user?._id, other?._id);
+  console.log('CURRENT USER:', user);
+  console.log('OTHER USER:', other);
+  console.log('CURRENT USER _id:', user?._id);
+  console.log('OTHER USER _id:', other?._id);
+  const readyForCall = !!user?._id && !!other?._id;
+  const rtc = useWebRTC(
+    readyForCall ? user._id : undefined,
+    readyForCall ? other._id : undefined
+  );
+  
   const localVideo = useRef<HTMLVideoElement>(null);
   const remoteVideo = useRef<HTMLVideoElement>(null);
+  const remoteAudio = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
     if (!id) return;
-    api.get(`/conversations`).then((r) => setConvo(r.data.find((c: any) => c._id === id)));
-    api.get(`/conversations/${id}/messages`).then((r) => setMessages(r.data));
-    api.patch(`/conversations/${id}/read`).catch(() => {});
+    api.get(`/api/conversations`).then((r) => setConvo(r.data.find((c: any) => c._id === id)));
+    api.get(`/api/conversations/${id}/messages`).then((r) => setMessages(r.data));
+    api.patch(`/api/conversations/${id}/read`).catch(() => {});
   }, [id]);
 
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages]);
 
   useEffect(() => {
     if (!socket) return;
-    const onNew = (m: any) => { if (m.conversation === id) setMessages((p) => [...p, m]); if (m.receiver === user?._id) api.patch(`/conversations/${id}/read`).catch(() => {}); };
+    const onNew = (m: any) => { if (m.conversation === id) setMessages((p) => [...p, m]); if (m.receiver === user?._id) api.patch(`/api/conversations/${id}/read`).catch(() => {}); };
     const onTyping = (p: any) => { if (p.conversationId === id) setPeerTyping(!!p.isTyping); };
     socket.on('chat:new', onNew);
     socket.on('chat:typing', onTyping);
@@ -44,14 +57,39 @@ export default function ChatRoomPage() {
   }, [socket, id, user]);
 
   useEffect(() => {
-    if (localVideo.current && rtc.localStream) localVideo.current.srcObject = rtc.localStream;
-    if (remoteVideo.current && rtc.remoteStream) remoteVideo.current.srcObject = rtc.remoteStream;
-  }, [rtc.localStream, rtc.remoteStream]);
+    if (localVideo.current && rtc.localStream) {
+      localVideo.current.srcObject = rtc.localStream;
+      localVideo.current.muted = true;
 
+      localVideo.current.play().catch(() => {});
+    }
+
+    if (rtc.isVideoCall) {
+      if (remoteVideo.current && rtc.remoteStream) {
+        remoteVideo.current.srcObject = rtc.remoteStream;
+        remoteVideo.current.muted = false;
+        remoteVideo.current.volume = 1;
+
+        remoteVideo.current.play().catch(console.error);
+      }
+    } else {
+      if (remoteAudio.current && rtc.remoteStream) {
+        remoteAudio.current.srcObject = rtc.remoteStream;
+        remoteAudio.current.volume = 1;
+        remoteAudio.current.muted = false;
+
+        remoteAudio.current.play().catch(console.error);
+      }
+    }
+  }, [
+    rtc.localStream,
+    rtc.remoteStream,
+    rtc.isVideoCall
+  ]);
   const send = async () => {
     const body = text.trim(); if (!body) return;
     setText('');
-    await api.post(`/conversations/${id}/messages`, { content: body });
+    await api.post(`/api/conversations/${id}/messages`, { content: body });
   };
 
   const typingTimer = useRef<any>();
@@ -62,7 +100,22 @@ export default function ChatRoomPage() {
     typingTimer.current = setTimeout(() => socket?.emit('chat:typing', { conversationId: id, to: other?._id, isTyping: false }), 1200);
   };
 
-  if (!user) return <div className="p-12 text-center">Sign in.</div>;
+
+    if (loading) {
+      return (
+        <div className="p-12 text-center">
+          Loading...
+        </div>
+      );
+    }
+
+    if (!user) {
+      return (
+        <div className="p-12 text-center">
+          Sign in.
+        </div>
+      );
+    }  
 
   return (
     <div className="container mx-auto px-4 py-6 max-w-3xl flex flex-col h-[calc(100vh-4rem)]">
@@ -74,12 +127,17 @@ export default function ChatRoomPage() {
         <div className="flex gap-2">
           {rtc.status === 'idle' || rtc.status === 'ended' ? (
             <>
-              <Button size="icon" variant="outline" onClick={() => rtc.start(false)}><Phone className="h-4 w-4" /></Button>
-              <Button size="icon" onClick={() => rtc.start(true)}><Video className="h-4 w-4" /></Button>
+              <Button size="icon" variant="outline" disabled={!readyForCall} onClick={() => rtc.start(false)}><Phone className="h-4 w-4" /></Button>
+              <Button size="icon" disabled={!readyForCall} onClick={() => rtc.start(true)}><Video className="h-4 w-4" /></Button>
             </>
           ) : rtc.status === 'incoming' ? (
             <>
-              <Button size="sm" onClick={() => rtc.accept(true)}>Accept</Button>
+                <Button
+                  size="sm"
+                  onClick={rtc.accept}
+              >
+                  Accept
+              </Button>
               <Button size="sm" variant="destructive" onClick={rtc.end}>Decline</Button>
             </>
           ) : (
@@ -92,9 +150,11 @@ export default function ChatRoomPage() {
         </div>
       </Card>
 
-      {rtc.status !== 'idle' && rtc.status !== 'ended' && (
+      <audio ref={remoteAudio} autoPlay/>
+
+      {rtc.isVideoCall && rtc.status !== 'idle' &&rtc.status !== 'ended' &&(
         <div className="relative bg-black rounded-xl overflow-hidden mb-3 aspect-video">
-          <video ref={remoteVideo} autoPlay playsInline className="w-full h-full object-cover" />
+          <video ref={remoteVideo} autoPlay playsInline controls={false} muted={false} className="w-full h-full object-cover" />
           <video ref={localVideo} autoPlay playsInline muted className="absolute bottom-2 right-2 w-32 h-24 rounded-md border border-white/20 object-cover" />
         </div>
       )}

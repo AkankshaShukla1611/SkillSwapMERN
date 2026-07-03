@@ -3,11 +3,19 @@ import axios from 'axios';
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 export const api = axios.create({ baseURL: API_URL });
+console.log('API_URL =', API_URL); // added 
 
 if (typeof window !== 'undefined') {
   api.interceptors.request.use((config) => {
+    console.log(
+    'REQUEST:',
+    config.method?.toUpperCase(),
+    config.baseURL,
+    config.url
+  );
     const token = localStorage.getItem('access');
     if (token) config.headers.Authorization = `Bearer ${token}`;
+    console.log("AUTH HEADER:", config.headers.Authorization);
     return config;
   });
 
@@ -22,7 +30,7 @@ if (typeof window !== 'undefined') {
           const rt = localStorage.getItem('refresh');
           refreshing = rt
             ? axios
-                .post(`${API_URL}/auth/refresh`, { refreshToken: rt })
+                .post(`${API_URL}/api/auth/refresh`, { refreshToken: rt })
                 .then((res) => {
                   localStorage.setItem('access', res.data.access);
                   localStorage.setItem('refresh', res.data.refresh);

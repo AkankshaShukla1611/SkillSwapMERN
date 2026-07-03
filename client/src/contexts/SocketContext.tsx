@@ -21,8 +21,30 @@ export function SocketProvider({ children }: { children: ReactNode }) {
     }
     const token = localStorage.getItem('access');
     const s = io(API_BASE, { auth: { token }, transports: ['websocket'] });
+
+    s.onAny((event, ...args) => {
+    console.log('SOCKET EVENT:', event, args);
+    });
+    s.on("connect", () => {
+      console.log("SOCKET CONNECTED");
+      console.log("USER:", user?._id);
+      console.log("SOCKET:", s.id);
+    });
+
+    s.on('connect_error', (err) => {
+      console.log('ONLINE SET', Array.from(online));
+      console.log('SOCKET ERROR:', err);
+    });
+
+    s.on('disconnect', (reason) => {
+      console.log('SOCKET DISCONNECTED:', reason);
+    });
     ref.current = s;
     setSocket(s);
+
+    s.on('presence:list', (users: string[]) => {
+    setOnline(new Set(users));
+    });
 
     s.on('presence:online', ({ userId }) => setOnline((p) => new Set(p).add(userId)));
     s.on('presence:offline', ({ userId }) => setOnline((p) => { const n = new Set(p); n.delete(userId); return n; }));

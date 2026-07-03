@@ -8,7 +8,7 @@ import { Card } from '@/components/ui/card';
 export default function ChatListPage() {
   const { user } = useAuth();
   const [convos, setConvos] = useState<any[]>([]);
-  useEffect(() => { if (user) api.get('/conversations').then((r) => setConvos(r.data)); }, [user]);
+  useEffect(() => { if (user) api.get('/api/conversations').then((r) => setConvos(r.data)); }, [user]);
   if (!user) return <div className="p-12 text-center">Sign in.</div>;
 
   return (
