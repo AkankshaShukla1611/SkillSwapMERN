@@ -1,347 +1,347 @@
-# 🚀 SkillSwap
+# SkillSwap 🚀
 
-> A full-stack peer-to-peer skill exchange platform that enables users to connect, learn, and teach skills through real-time messaging, voice calling, and video calling.
+> **Trade Skills. Build Connections. Learn Together.**
 
-![License](https://img.shields.io/badge/License-MIT-green)
-![React](https://img.shields.io/badge/React-19-blue)
-![Next.js](https://img.shields.io/badge/Next.js-15-black)
-![Node.js](https://img.shields.io/badge/Node.js-Express-green)
-![MongoDB](https://img.shields.io/badge/Database-MongoDB-success)
-![Socket.io](https://img.shields.io/badge/Realtime-Socket.io-black)
-![WebRTC](https://img.shields.io/badge/WebRTC-Video%20Calling-blueviolet)
+<p align="center">
+  <b>A production-ready full-stack MERN platform enabling peer-to-peer skill exchange with real-time messaging and WebRTC voice/video calling.</b>
+</p>
 
 ---
 
-## 📌 Overview
+# 🌟 Overview
 
-SkillSwap is a modern full-stack web application where users can exchange skills, discover learning opportunities, communicate in real time, and collaborate through secure voice and video calls.
+SkillSwap is a full-stack social learning platform where users can teach what they know and learn what they don't.
 
-The application demonstrates real-world software engineering concepts including authentication, REST APIs, real-time communication, WebRTC signaling, deployment, and scalable application architecture.
+Unlike traditional learning platforms, SkillSwap focuses on **mutual learning**. Every user can be both a mentor and a learner.
+
+The project was designed and built as a production-ready MERN application emphasizing authentication, scalability, clean architecture, and real-time communication.
 
 ---
 
-## ✨ Features
-
-### 👤 Authentication
+# ✨ Highlights
 
 - JWT Authentication
 - Refresh Tokens
-- Secure Protected Routes
-- Persistent Login
-
----
-
-### 👥 User Profiles
-
-- Create Profile
-- Update Profile
-- Skills Offered
-- Skills Wanted
-- Avatar Upload
-
----
-
-### 🤝 Connections
-
-- Send Connection Requests
-- Accept / Reject Requests
-- Manage Connections
-
----
-
-### 💬 Real-Time Chat
-
-- One-to-One Messaging
-- Typing Indicator
-- Read Receipts
-- Live Message Updates
-
-Powered by Socket.io.
-
----
-
-### 📞 Voice Calling
-
-- Real-time Voice Calls
-- Mute / Unmute
-- Call Accept / Reject
-- Call End
-
-Built using WebRTC.
-
----
-
-### 🎥 Video Calling
-
-- HD Video Calls
+- Protected APIs
+- Skill Discovery
+- Connection Requests
+- Real-Time Chat
+- Online / Offline Presence
+- Typing Indicators
+- WebRTC Voice Calling
+- WebRTC Video Calling
 - Camera Toggle
 - Microphone Toggle
-- Local Preview
-- Remote Stream
-
-Built using WebRTC.
-
----
-
-### 🟢 Presence System
-
-- Online / Offline Status
-- Live Presence Updates
-- Automatic Disconnect Handling
+- Read Receipts
+- Responsive UI
+- Cloudinary Image Uploads
+- MongoDB Atlas
+- Socket.IO
+- Render Deployment
+- Vercel Deployment
 
 ---
 
-## 🏗 Architecture
+# 🏗 Architecture
 
-```
-Next.js Frontend
-        │
-        │ REST API
-        ▼
-Express.js Backend
-        │
-        │
- MongoDB Atlas
-        │
-        │
-Socket.io
-        │
-        │
-     WebRTC
+```text
+                    Browser
+
+        React + Next.js + TailwindCSS
+                    │
+             Axios Interceptors
+                    │
+          JWT Authentication Layer
+                    │
+             Express REST API
+                    │
+      Socket.IO Signaling Server
+                    │
+          WebRTC Peer Connection
+                    │
+             MongoDB Atlas
+                    │
+             Cloudinary Storage
 ```
 
 ---
 
-## 🛠 Tech Stack
+# 🛠 Tech Stack
 
-### Frontend
+## Frontend
 
 - Next.js
 - React
-- TypeScript
 - Tailwind CSS
 - Axios
-- Socket.io Client
+- Context API
+- Socket.IO Client
 
-### Backend
+## Backend
 
 - Node.js
 - Express.js
 - MongoDB
 - Mongoose
+- Socket.IO
 - JWT
-- Socket.io
+- bcrypt
 
-### Real-Time
-
-- Socket.io
-- WebRTC
-- STUN Server
-
-### Deployment
+## Deployment
 
 - Vercel
 - Render
 - MongoDB Atlas
+- Cloudinary
 
 ---
 
-## 📂 Project Structure
+# 📂 Project Structure
 
-```
+```text
 client/
-├── app/
-├── components/
-├── contexts/
-├── hooks/
-├── lib/
-└── styles/
+ ├── app/
+ ├── components/
+ ├── contexts/
+ ├── hooks/
+ │     └── useWebRTC.ts
+ ├── lib/
+ └── ui/
 
 server/
-├── controllers/
-├── middleware/
-├── models/
-├── routes/
-├── sockets/
-├── utils/
-└── config/
+ ├── config/
+ ├── controllers/
+ ├── middleware/
+ ├── models/
+ ├── routes/
+ ├── sockets/
+ │     ├── index.js
+ │     └── registry.js
+ ├── utils/
+ └── server.js
 ```
 
 ---
 
-## 🚀 Live Demo
+# 🔐 Authentication
+
+- User Registration
+- Login
+- Access Token
+- Refresh Token
+- Protected Routes
+- Token Refresh
+- Password Hashing
+
+---
+
+# 💬 Real-Time Messaging
+
+- Instant Delivery
+- Read Receipts
+- Typing Indicators
+- Online Presence
+- Socket Events
+
+---
+
+# 📞 Voice Calling
+
+Powered using **WebRTC**.
+
+Features
+
+- Peer-to-peer audio
+- ICE Candidate Exchange
+- SDP Negotiation
+- Mute / Unmute
+- Automatic Cleanup
+
+---
+
+# 🎥 Video Calling
+
+Features
+
+- Camera Sharing
+- Audio + Video Streams
+- Camera Toggle
+- Microphone Toggle
+- End Call
+- Remote Stream Rendering
+
+---
+
+# 🧠 Engineering Decisions
+
+## Why WebRTC?
+
+To establish encrypted peer-to-peer media communication while using Socket.IO only for signaling.
+
+## Why Socket.IO?
+
+Reliable event-based communication for messaging, typing indicators, presence and signaling.
+
+## Why JWT?
+
+Stateless authentication with scalable API design.
+
+## Why MongoDB?
+
+Flexible document model suitable for conversations, messages and user profiles.
+
+---
+
+# 🐞 Engineering Challenges
+
+## 1. Presence Synchronization
+
+Problem:
+Users appeared offline even after authentication.
+
+Root Cause:
+Socket registry was not synchronizing authenticated user IDs with active socket IDs.
+
+Solution:
+Implemented centralized socket registry and broadcast presence updates.
+
+---
+
+## 2. Video Calling
+
+Problem:
+Remote video was never displayed.
+
+Root Cause:
+Incorrect signaling lifecycle and media attachment.
+
+Solution:
+Fixed signaling flow, remote stream attachment and peer initialization.
+
+---
+
+## 3. Voice Calling
+
+Problem:
+Remote audio track existed but no sound was heard.
+
+Root Cause:
+Audio stream wasn't attached to an audio element for audio-only calls.
+
+Solution:
+Introduced dedicated audio renderer and corrected playback lifecycle.
+
+---
+
+# 🔒 Security
+
+- JWT Authentication
+- Refresh Tokens
+- Password Hashing
+- Protected APIs
+- Authorization Middleware
+- Environment Variables
+- Secure Socket Authentication
+
+---
+
+# ⚡ Performance
+
+- Axios Interceptors
+- Socket Cleanup
+- WebRTC Resource Cleanup
+- Optimized React Rendering
+- Efficient Presence Registry
+
+---
+
+# 🚀 Deployment
 
 Frontend
 
-https://skill-swap-mern-pi.vercel.app
+- Vercel
 
 Backend
 
-https://skillswap-backend-bq4.onrender.com
+- Render
+
+Database
+
+- MongoDB Atlas
+
+Media
+
+- Cloudinary
 
 ---
 
-## 📷 Screenshots
+# 📸 Screenshots
 
-### Home
+Add screenshots here:
 
-(Add screenshot)
-
-### Profile
-
-(Add screenshot)
-
-### Chat
-
-(Add screenshot)
-
-### Voice Call
-
-(Add screenshot)
-
-### Video Call
-
-(Add screenshot)
+- Landing Page
+- Dashboard
+- Profile
+- Chat
+- Voice Call
+- Video Call
+- Mobile View
 
 ---
 
-## 🔐 Authentication Flow
+# 🔮 Roadmap
 
-```
-User Login
-      │
-      ▼
-Access Token
-      │
-      ▼
-Protected APIs
-      │
-      ▼
-401 ?
-      │
-      ▼
-Refresh Token
-      │
-      ▼
-Generate New Access Token
-```
-
----
-
-## 📡 Real-Time Communication
-
-```
-User A
-   │
-Socket.io
-   │
-Server
-   │
-Socket.io
-   │
-User B
-```
-
----
-
-## 🎥 Video Calling Flow
-
-```
-Caller
-   │
-Offer
-   ▼
-Socket.io
-   │
-Receiver
-   │
-Answer
-   ▼
-ICE Candidates
-   ▼
-Peer Connection
-   ▼
-Media Stream
-```
-
----
-
-## 🧪 Installation
-
-### Clone
-
-```bash
-git clone https://github.com/AkankshaShukla1611/SkillSwapMERN.git
-```
-
-### Install
-
-```bash
-cd client
-npm install
-
-cd ../server
-npm install
-```
-
-### Environment Variables
-
-Server
-
-```env
-PORT=
-MONGODB_URI=
-JWT_SECRET=
-JWT_REFRESH_SECRET=
-CLIENT_URL=
-```
-
-Client
-
-```env
-NEXT_PUBLIC_API_URL=
-```
-
----
-
-## ▶ Run
-
-Backend
-
-```bash
-npm run dev
-```
-
-Frontend
-
-```bash
-npm run dev
-```
-
----
-
-## 📈 Future Improvements
-
-- Group Chat
+- Group Calls
 - Screen Sharing
-- File Sharing
-- Push Notifications
-- Call Recording
 - AI Skill Recommendations
-- Search Filters
+- Notifications
+- Docker
+- CI/CD
+- Redis
+- Testing
 
 ---
 
-## 👩‍💻 Author
+# 📚 Lessons Learned
 
-**Akanksha Shukla**
+Building SkillSwap strengthened my understanding of:
 
-Computer Science Engineer
+- System Design
+- MERN Architecture
+- JWT Authentication
+- Socket.IO
+- WebRTC
+- Production Deployment
+- Real-time State Synchronization
+- Debugging Distributed Systems
 
-GitHub
+---
 
-https://github.com/AkankshaShukla1611
+# 👩‍💻 About the Developer
+
+**Akanksha**
+
+Computer Science Graduate | MERN Stack Developer
+
+I enjoy building scalable web applications, solving real-world engineering problems and continuously improving my software engineering skills. SkillSwap represents my interest in real-time systems, clean architecture and modern web technologies.
+
+---
+
+# 🤝 For Recruiters
+
+Thank you for taking the time to review this project.
+
+SkillSwap was built to deepen my understanding of production-grade full-stack development, real-time communication and scalable application architecture.
+
+I welcome feedback, technical discussions and opportunities where I can contribute while continuing to learn.
+
+---
+
+# 📬 Contact
+
+- GitHub: https://github.com/AkankshaShukla1611
 
 
+---
 
-⭐ If you found this project helpful, consider giving it a star.
+If you found this project interesting, consider giving it a ⭐.
