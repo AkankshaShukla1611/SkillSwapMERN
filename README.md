@@ -342,10 +342,6 @@ GitHub
 
 https://github.com/AkankshaShukla1611
 
-LinkedIn
 
-(Add your LinkedIn)
-
----
 
 ⭐ If you found this project helpful, consider giving it a star.
