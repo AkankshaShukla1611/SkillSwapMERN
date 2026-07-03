@@ -1,144 +1,351 @@
-# SkillSwap 🚀
+# 🚀 SkillSwap
 
-SkillSwap is a full-stack peer-to-peer skill exchange platform that enables users to connect, learn, and teach skills through real-time communication.
+> A full-stack peer-to-peer skill exchange platform that enables users to connect, learn, and teach skills through real-time messaging, voice calling, and video calling.
 
-## 🌟 Features
-
-* User Authentication (JWT Access & Refresh Tokens)
-* Secure Registration & Login
-* User Profiles
-* Skill Matching System
-* Real-time Chat using Socket.io
-* Notifications
-* Connection Requests
-* Responsive UI
-* Protected Routes
-* MongoDB Database Integration
+![License](https://img.shields.io/badge/License-MIT-green)
+![React](https://img.shields.io/badge/React-19-blue)
+![Next.js](https://img.shields.io/badge/Next.js-15-black)
+![Node.js](https://img.shields.io/badge/Node.js-Express-green)
+![MongoDB](https://img.shields.io/badge/Database-MongoDB-success)
+![Socket.io](https://img.shields.io/badge/Realtime-Socket.io-black)
+![WebRTC](https://img.shields.io/badge/WebRTC-Video%20Calling-blueviolet)
 
 ---
 
-## 🛠️ Tech Stack
+## 📌 Overview
+
+SkillSwap is a modern full-stack web application where users can exchange skills, discover learning opportunities, communicate in real time, and collaborate through secure voice and video calls.
+
+The application demonstrates real-world software engineering concepts including authentication, REST APIs, real-time communication, WebRTC signaling, deployment, and scalable application architecture.
+
+---
+
+## ✨ Features
+
+### 👤 Authentication
+
+- JWT Authentication
+- Refresh Tokens
+- Secure Protected Routes
+- Persistent Login
+
+---
+
+### 👥 User Profiles
+
+- Create Profile
+- Update Profile
+- Skills Offered
+- Skills Wanted
+- Avatar Upload
+
+---
+
+### 🤝 Connections
+
+- Send Connection Requests
+- Accept / Reject Requests
+- Manage Connections
+
+---
+
+### 💬 Real-Time Chat
+
+- One-to-One Messaging
+- Typing Indicator
+- Read Receipts
+- Live Message Updates
+
+Powered by Socket.io.
+
+---
+
+### 📞 Voice Calling
+
+- Real-time Voice Calls
+- Mute / Unmute
+- Call Accept / Reject
+- Call End
+
+Built using WebRTC.
+
+---
+
+### 🎥 Video Calling
+
+- HD Video Calls
+- Camera Toggle
+- Microphone Toggle
+- Local Preview
+- Remote Stream
+
+Built using WebRTC.
+
+---
+
+### 🟢 Presence System
+
+- Online / Offline Status
+- Live Presence Updates
+- Automatic Disconnect Handling
+
+---
+
+## 🏗 Architecture
+
+```
+Next.js Frontend
+        │
+        │ REST API
+        ▼
+Express.js Backend
+        │
+        │
+ MongoDB Atlas
+        │
+        │
+Socket.io
+        │
+        │
+     WebRTC
+```
+
+---
+
+## 🛠 Tech Stack
 
 ### Frontend
 
-* Next.js
-* React
-* TypeScript
-* Tailwind CSS
-* Axios
-* React Hook Form
-* Zod
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- Axios
+- Socket.io Client
 
 ### Backend
 
-* Node.js
-* Express.js
-* MongoDB
-* Mongoose
-* Socket.io
-* JWT Authentication
-* Express Middleware
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- JWT
+- Socket.io
+
+### Real-Time
+
+- Socket.io
+- WebRTC
+- STUN Server
 
 ### Deployment
 
-* Frontend: Vercel
-* Backend: Render
-* Database: MongoDB Atlas
+- Vercel
+- Render
+- MongoDB Atlas
 
 ---
 
 ## 📂 Project Structure
 
-```bash
-SkillSwap/
-│
-├── client/
-│   ├── src/
-│   ├── public/
-│   ├── package.json
-│   └── next.config.js
-│
-├── server/
-│   ├── config/
-│   ├── controllers/
-│   ├── middleware/
-│   ├── models/
-│   ├── routes/
-│   ├── services/
-│   ├── sockets/
-│   ├── utils/
-│   ├── server.js
-│   └── package.json
-│
-└── README.md
+```
+client/
+├── app/
+├── components/
+├── contexts/
+├── hooks/
+├── lib/
+└── styles/
+
+server/
+├── controllers/
+├── middleware/
+├── models/
+├── routes/
+├── sockets/
+├── utils/
+└── config/
 ```
 
 ---
 
-## ⚙️ Environment Variables
+## 🚀 Live Demo
 
-### Frontend (.env)
+Frontend
 
-```env
-NEXT_PUBLIC_API_URL=https://your-backend-url.onrender.com/api
+https://skill-swap-mern-pi.vercel.app
+
+Backend
+
+https://skillswap-backend-bq4.onrender.com
+
+---
+
+## 📷 Screenshots
+
+### Home
+
+(Add screenshot)
+
+### Profile
+
+(Add screenshot)
+
+### Chat
+
+(Add screenshot)
+
+### Voice Call
+
+(Add screenshot)
+
+### Video Call
+
+(Add screenshot)
+
+---
+
+## 🔐 Authentication Flow
+
 ```
-
-### Backend (.env)
-
-```env
-PORT=1000
-
-MONGO_URI=your_mongodb_connection_string
-
-JWT_ACCESS_SECRET=your_access_secret
-JWT_REFRESH_SECRET=your_refresh_secret
-
-CLIENT_URL=https://your-frontend-url.vercel.app
+User Login
+      │
+      ▼
+Access Token
+      │
+      ▼
+Protected APIs
+      │
+      ▼
+401 ?
+      │
+      ▼
+Refresh Token
+      │
+      ▼
+Generate New Access Token
 ```
 
 ---
 
-## 🚀 Installation
+## 📡 Real-Time Communication
 
-### Clone Repository
+```
+User A
+   │
+Socket.io
+   │
+Server
+   │
+Socket.io
+   │
+User B
+```
+
+---
+
+## 🎥 Video Calling Flow
+
+```
+Caller
+   │
+Offer
+   ▼
+Socket.io
+   │
+Receiver
+   │
+Answer
+   ▼
+ICE Candidates
+   ▼
+Peer Connection
+   ▼
+Media Stream
+```
+
+---
+
+## 🧪 Installation
+
+### Clone
 
 ```bash
 git clone https://github.com/AkankshaShukla1611/SkillSwapMERN.git
-
-cd SkillSwapMERN
 ```
 
-### Frontend Setup
+### Install
 
 ```bash
 cd client
-
 npm install
 
-npm run dev
+cd ../server
+npm install
 ```
 
-### Backend Setup
+### Environment Variables
+
+Server
+
+```env
+PORT=
+MONGODB_URI=
+JWT_SECRET=
+JWT_REFRESH_SECRET=
+CLIENT_URL=
+```
+
+Client
+
+```env
+NEXT_PUBLIC_API_URL=
+```
+
+---
+
+## ▶ Run
+
+Backend
 
 ```bash
-cd server
+npm run dev
+```
 
-npm install
+Frontend
 
+```bash
 npm run dev
 ```
 
 ---
 
-## 🔗 Live Demo
+## 📈 Future Improvements
 
-Frontend:
-https://skill-swap-mern-pi.vercel.app
-
-Backend:
-https://skillswap-backend-bqg4.onrender.com
+- Group Chat
+- Screen Sharing
+- File Sharing
+- Push Notifications
+- Call Recording
+- AI Skill Recommendations
+- Search Filters
 
 ---
 
+## 👩‍💻 Author
 
+**Akanksha Shukla**
 
+Computer Science Engineer
+
+GitHub
+
+https://github.com/AkankshaShukla1611
+
+LinkedIn
+
+(Add your LinkedIn)
+
+---
+
+⭐ If you found this project helpful, consider giving it a star.
